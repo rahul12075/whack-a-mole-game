@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whack-a-Mole Game</title>
+    <link rel="stylesheet" href="whack-a-mole.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Whack-a-Mole</h1>
+        
+        <div class="game-info">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="time">Time: <span id="time">30</span>s</div>
+        </div>
+        
+        <div class="game-board">
+            <div class="hole" id="hole-0">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole-1">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole-2">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole-3">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole-4">
+                <div class="mole"></div>
+            </div>
+            <div class="hole" id="hole-5">
+                <div class="mole"></div>
+            </div>
+            
+            <!-- Game over tag -->
+            <div class="game-over-tag" id="game-over-tag">GAME-OVER</div>
+            
+            <!-- Score popup -->
+            <div class="score-popup" id="score-popup">Final Score: <span id="final-score">0</span></div>
+        </div>
+        
+        <button id="start-button">Start Game</button>
+        
+        <div class="sound-controls">
+            <label>
+                <input type="checkbox" id="sound-toggle" checked>
+                Sound Effects
+            </label>
+        </div>
+        
+        <footer>
+            <p>Created with ❤️ | <a href="https://github.com/yourusername/whack-a-mole-game" target="_blank">View on GitHub</a></p>
+        </footer>
+    </div>
+    
+    <script src="whack-a-mole.js"></script>
+</body>
+</html>
