@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameOverTag = document.getElementById('game-over-tag');
     const scorePopup = document.getElementById('score-popup');
     const finalScoreDisplay = document.getElementById('final-score');
-    
+    const highScoreDisplay = document.getElementById('high-score');
+    let highScore = localStorage.getItem('highScore') || 0;
+    highScoreDisplay.textContent = highScore;
+
+
     // Game variables
     let score = 0;
     let timeLeft = 30;
@@ -135,6 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show score popup
         finalScoreDisplay.textContent = score;
         scorePopup.style.display = 'block';
+
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('highScore', highScore);
+            highScoreDisplay.textContent = highScore;
+        }
         
         // Enable start button after a delay
         setTimeout(() => {
@@ -144,6 +154,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Event listeners
     startButton.addEventListener('click', initGame);
+    const restartButton = document.getElementById('restart-button');
+    restartButton.addEventListener('click', function () {
+    if (isPlaying) {
+        // Stop current game
+        clearInterval(gameTimer);
+        clearTimeout(moleTimer);
+        backgroundMusic.pause();
+        isPlaying = false;
+    }
+
+    // Hide all moles
+    moles.forEach(mole => {
+        mole.classList.remove('active');
+        mole.classList.remove('whacked');
+    });
+
+    // Start fresh
+    initGame();
+});
+
+
     
     // Add click event to each mole
     moles.forEach(mole => {
