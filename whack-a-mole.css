@@ -243,11 +243,14 @@ h1 {
 }
 
 /* LIGHT AND DARK MODE */
+
 body.dark-mode {
-  --bg-color: #212121;
-  --text-color: #f6f6f6;
   background-color: #212121 !important;
-  background-image: none !important;
+  background-image:
+  linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+  url("https://i.pinimg.com/1200x/b5/37/f6/b537f6af75a3573bda5c9148ed16c5dc.jpg") !important;
+  background-size: cover;
+  background-position: center;
   color: var(--text-color);
 }
 
