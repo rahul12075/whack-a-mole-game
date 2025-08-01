@@ -221,3 +221,22 @@ moles.forEach(mole => {
         }
     });
 });
+
+// LIGHT AND DARK MODE
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+  themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Toggle Light Mode';
+}
+
+themeToggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  themeToggleBtn.innerHTML = isDark
+    ? '<i class="fas fa-sun"></i> Toggle Light Mode'
+    : '<i class="fas fa-moon"></i> Toggle Dark Mode';
+
+  //  choice
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
