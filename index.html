@@ -23,6 +23,26 @@
             <div class="time">Time: <span id="time">30</span>s</div>
         </div>
         
+        <div class="level-selection">
+            <h3>Select Difficulty Level:</h3>
+            <div class="level-dropdown-container">
+                <label for="level-select" class="level-label">
+                    <i class="fas fa-gamepad"></i> Choose Level:
+                </label>
+                <select id="level-select" class="level-dropdown">
+                    <option value="easy" data-time="30" data-speed="Slow">
+                        🌱 Easy - 30s | Slow Speed
+                    </option>
+                    <option value="medium" data-time="45" data-speed="Medium">
+                        🔥 Medium - 45s | Medium Speed
+                    </option>
+                    <option value="hard" data-time="60" data-speed="Fast">
+                        ⚡ Hard - 60s | Fast Speed
+                    </option>
+                </select>
+            </div>
+        </div>
+        
         <div class="game-board">
             <div class="hole" id="hole-0">
                 <div class="mole"></div>
@@ -55,7 +75,7 @@
         </div>
         
         
-         <button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game</button>
+         <button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game (Easy)</button>
          <button id="restart-button" class="game-button">Restart Game</button>
         
         <div class="sound-controls">

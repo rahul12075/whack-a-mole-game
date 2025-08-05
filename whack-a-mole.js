@@ -10,17 +10,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const scorePopup = document.getElementById('score-popup');
     const finalScoreDisplay = document.getElementById('final-score');
     const highScoreDisplay = document.getElementById('high-score');
+    
+    // Level selection elements
+    const levelSelect = document.getElementById('level-select');
+    
     let highScore = localStorage.getItem('highScore') || 0;
     highScoreDisplay.textContent = highScore;
 
-
-    
+  
     let score = 0;
     let timeLeft = 30;
     let gameTimer;
     let moleTimer;
     let isPlaying = false;
+    let currentLevel = 'easy'; 
     
+   
+    const levelConfig = {
+        easy: {
+            timeLimit: 30,
+            minMoleTime: 800,
+            maxMoleTime: 1500,
+            label: 'Easy',
+            background: '#90ee90'
+
+        },
+        medium: {
+            timeLimit: 45,
+            minMoleTime: 500,
+            maxMoleTime: 1000,
+            label: 'Medium',
+            background: '#fff97eff'
+        },
+        hard: {
+            timeLimit: 60,
+            minMoleTime: 300,
+            maxMoleTime: 700,
+            label: 'Hard',
+            background: '#eb9e9e'
+        }
+    };
 
     const whackSound = new Audio('sounds/whack.mp3');
     const gameOverSound = new Audio('sounds/game-over.mp3');
@@ -30,20 +59,37 @@ document.addEventListener('DOMContentLoaded', () => {
     backgroundMusic.loop = false;
     backgroundMusic.volume = 0.5;
     
+    // Level selection event listener
+    levelSelect.addEventListener('change', () => {
+        // Update current level
+        currentLevel = levelSelect.value;
+        
+        // Update time display based on selected level
+        timeDisplay.textContent = levelConfig[currentLevel].timeLimit;
+        
+        // Update background color based on selected level
+        document.getElementById('level-select').style.background = levelConfig[currentLevel].background;
+        // Update start button text
+        const levelName = levelConfig[currentLevel].label;
+        startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
+    });
    
     function initGame() {
         score = 0;
-        timeLeft = 30;
+        timeLeft = levelConfig[currentLevel].timeLimit;
         isPlaying = true;
         
-      
+        // Update UI
         scoreDisplay.textContent = score;
         timeDisplay.textContent = timeLeft;
         startButton.disabled = true;
         gameOverTag.style.display = 'none';
         scorePopup.style.display = 'none';
         
+        // Disable level selection during game
+        levelSelect.disabled = true;
         
+        // Handle background music
         const soundEnabled = soundToggle.checked;
         if (soundEnabled) {
             backgroundMusic.currentTime = 0;
@@ -51,11 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Audio play failed:", error);
             });
             
+            // Stop background music before game ends
             setTimeout(() => {
                 if (isPlaying) {
                     backgroundMusic.pause();
                 }
-            }, 29000);
+            }, (timeLeft - 1) * 1000);
         }
         
         
@@ -81,23 +128,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
    
     function showMole() {
-        
+        // Hide all moles first
         moles.forEach(mole => {
             mole.classList.remove('active');
         });
         
-       
+        // Check if game is still playing
         if (!isPlaying) return;
         
-       
+        // Get random hole
         const randomHole = Math.floor(Math.random() * holes.length);
         const mole = holes[randomHole].querySelector('.mole');
         
-       
+        // Show the mole
         mole.classList.add('active');
         
-        
-        const showTime = Math.random() * 1000 + 600;
+        // Calculate show time based on current level
+        const config = levelConfig[currentLevel];
+        const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
         
         
         moleTimer = setTimeout(() => {
@@ -112,38 +160,44 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(moleTimer);
         isPlaying = false;
         
-        
+        // Hide all moles
         moles.forEach(mole => {
             mole.classList.remove('active');
         });
         
+        // Re-enable level selection
+        levelSelect.disabled = false;
        
+        // Stop background music
         backgroundMusic.pause();
         
-        
+        // Play game over sound
         const soundEnabled = soundToggle.checked;
         if (soundEnabled) {
             gameOverSound.play().catch(error => {
                 console.log("Game over sound failed:", error);
             });
         }
-        
        
+        // Show game over message
         gameOverTag.style.display = 'block';
         
-        
+        // Show final score
         finalScoreDisplay.textContent = score;
         scorePopup.style.display = 'block';
 
+        // Update high score if necessary
         if (score > highScore) {
             highScore = score;
             localStorage.setItem('highScore', highScore);
             highScoreDisplay.textContent = highScore;
         }
         
-        
+        // Re-enable start button after delay
         setTimeout(() => {
             startButton.disabled = false;
+            const levelName = levelConfig[currentLevel].label;
+            startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
         }, 3000);
     }
     
@@ -151,22 +205,25 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.addEventListener('click', initGame);
     const restartButton = document.getElementById('restart-button');
     restartButton.addEventListener('click', function () {
-    if (isPlaying) {
+        if (isPlaying) {
+            // Stop current game
+            clearInterval(gameTimer);
+            clearTimeout(moleTimer);
+            backgroundMusic.pause();
+            isPlaying = false;
+        }
+
+        // Hide all moles
+        moles.forEach(mole => {
+            mole.classList.remove('active');
+        });
+
+        // Re-enable level selection
+        levelSelect.disabled = false;
         
-        clearInterval(gameTimer);
-        clearTimeout(moleTimer);
-        backgroundMusic.pause();
-        isPlaying = false;
-    }
-
-   
-    moles.forEach(mole => {
-        mole.classList.remove('active');
+        // Start new game with current level
+        initGame();
     });
-
-    
-    initGame();
-});
  
     
 moles.forEach(mole => {
