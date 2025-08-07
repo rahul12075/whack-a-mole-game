@@ -255,9 +255,28 @@ moles.forEach(mole => {
         }
     });
 });
-    
-    
-    soundToggle.addEventListener('change', function() {
+const howToPlayBtn = document.getElementById('how-to-play-btn');
+const howToModal = document.getElementById('how-to-modal');
+const closeBtn = document.getElementById('close-modal');
+
+// Show modal
+howToPlayBtn.addEventListener('click', () => {
+  howToModal.style.display = 'block';
+});
+
+// Hide modal
+closeBtn.addEventListener('click', () => {
+  howToModal.style.display = 'none';
+});
+
+// Close modal if click outside content
+window.addEventListener('click', (e) => {
+  if (e.target === howToModal) {
+    howToModal.style.display = 'none';
+  }
+});
+
+soundToggle.addEventListener('change', function() {
         const soundEnabled = this.checked;
         
        
@@ -277,6 +296,7 @@ moles.forEach(mole => {
             backgroundMusic.pause();
         }
     });
+    
 });
 
 // LIGHT AND DARK MODE
