@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Level selection elements
     const levelSelect = document.getElementById('level-select');
     
+    // Theme selection elements
+    const themeSelect = document.getElementById('theme-select');
+    
     let highScore = localStorage.getItem('highScore') || 0;
     highScoreDisplay.textContent = highScore;
 
@@ -58,6 +61,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     backgroundMusic.loop = false;
     backgroundMusic.volume = 0.5;
+    
+    // Initialize theme
+    const savedTheme = localStorage.getItem('gameTheme') || 'classic';
+    document.body.setAttribute('data-theme', savedTheme);
+    themeSelect.value = savedTheme;
+    
+    // Theme selection event listener
+    themeSelect.addEventListener('change', () => {
+        const selectedTheme = themeSelect.value;
+        document.body.setAttribute('data-theme', selectedTheme);
+        localStorage.setItem('gameTheme', selectedTheme);
+    });
     
     // Level selection event listener
     levelSelect.addEventListener('change', () => {
