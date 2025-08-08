@@ -4,37 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>About Us - Whack-a-Mole</title>
-      <link rel="icon" href="favicon-whack-a-mole-game.png">
-    <title>Whack-a-Mole Game</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="whack-a-mole.css">
+  <link rel="icon" href="favicon-whack-a-mole-game.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="whack-a-mole.css">
   <style>
-    /* Reset and basic styles */
-    body {
-      font-family: Arial, sans-serif;
+    html, body {
+      height: 100%;
       margin: 0;
-      background: #f0f4f8;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      flex: 1; /* Pushes footer to bottom if content is short */
+    }
+
+
+
+    body {
+      margin: 0;
       color: #333;
       line-height: 1.6;
     }
 
-    a {
-      color: #035f08;
-      text-decoration: none;
-    }
 
-    a:hover {
-      text-decoration: underline;
-    }
 
-    /* Container */
     .container {
       max-width: 900px;
       margin: 40px auto;
       padding: 0 16px;
     }
 
-    /* Header */
     h1 {
       color: #035f08;
       font-size: 2.5rem;
@@ -42,7 +45,6 @@
       text-align: center;
     }
 
-    /* Section styling */
     section {
       background: white;
       padding: 24px 32px;
@@ -56,28 +58,6 @@
       margin-top: 0;
     }
 
-    /* Team members list */
-    .team-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .team-list li {
-      margin-bottom: 12px;
-      font-weight: 600;
-    }
-
-    /* Footer (matching previous style) */
-    footer {
-      background: #222;
-      color: #ccc;
-      padding: 12px 16px;
-      font-size: 0.9rem;
-      text-align: center;
-    }
-
-    /* Responsive adjustments */
     @media (max-width: 480px) {
       .container {
         margin: 20px auto;
@@ -87,11 +67,12 @@
   </style>
 </head>
 <body>
+<!-- This is the updated navbar -->
 <nav class="navbar">
   <div class="navbar-container">
-    <a href="" class="navbar-logo">Whack-a-Mole 🐹</a>
+    <a href="index.html" class="navbar-logo">Whack-a-Mole 🐹</a>
     <ul class="navbar-menu">
-      <li><a href="#" class="active">Home</a></li>
+      <li><a href="index.html" >Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub</a></li>
     </ul>
@@ -118,41 +99,40 @@
     </div>
   </div>
 </nav>
+<div class="container">
+  <h1>About Us</h1>
 
-  <div class="container">
-    <h1>About Us</h1>
+  <section>
+    <h2>Our Project</h2>
+    <p>
+      Whack-a-Mole is an interactive and fun browser-based game designed to test your reflexes and speed. Our goal is to provide an engaging experience with simple yet addictive gameplay, accessible across all devices.
+    </p>
+    <p>
+      This project was created as part of a community-driven effort to build games that promote learning through play, featuring responsive design and user-friendly controls.
+    </p>
+  </section>
 
-    <section>
-      <h2>Our Project</h2>
-      <p>
-        Whack-a-Mole is an interactive and fun browser-based game designed to test your reflexes and speed. Our goal is to provide an engaging experience with simple yet addictive gameplay, accessible across all devices.
-      </p>
-      <p>
-        This project was created as part of a community-driven effort to build games that promote learning through play, featuring responsive design and user-friendly controls.
-      </p>
-    </section>
+  <section>
+    <h2>Our Contributors</h2>
+    <p>
+      This project is the result of the collective efforts of many contributors. Every single contribution, no matter how big or small, is valuable and deeply appreciated.
+    </p>
+  </section>
 
-    <section>
-      <h2>Meet the Team</h2>
-      <ul class="team-list">
-        <li><strong>Samrudhi Pawar</strong> — Project Lead & Developer</li>
-        <li><strong>Bhavani Sankar Komati</strong> — UI/UX Designer & Contributor</li>
-        <li><strong>Your Name</strong> — Developer & Tester</li>
-        <!-- Add more team members as needed -->
-      </ul>
-    </section>
+  <section>
+    <h2>Contact</h2>
+    <p>Have questions or feedback? Reach out to us:</p>
+    <p>GitHub: <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank" rel="noopener">github.com/Samrudhipawar/whack-a-mole-game</a></p>
+  </section>
+</div>
 
-    <section>
-      <h2>Contact</h2>
-      <p>Have questions or feedback? Reach out to us:</p>
-      <p>Email: <a href="mailto:contact@whackamolegame.com">contact@whackamolegame.com</a></p>
-      <p>GitHub: <a href="https://github.com/your-repo" target="_blank" rel="noopener">github.com/your-repo</a></p>
-    </section>
-  </div>
-
-  <footer>
-    © 2025 Whack-a-Mole Project. All rights reserved.
-  </footer>
-
+ <footer class="footer">
+         <p>
+            Created with <span class="heart">❤️</span> by 
+            <a href="https://github.com/Samrudhipawar" target="_blank">Samrudhi Pawar</a> | 
+            <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub Repo</a>
+         </p>
+        </footer>
+ <script src="whack-a-mole.js"></script>
 </body>
 </html>
