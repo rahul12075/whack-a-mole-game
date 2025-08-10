@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let moleTimer;
     let isPlaying = false;
     let currentLevel = 'easy'; 
+    let goldenMoleChance = 0.15; // 15% chance for golden mole
+let goldenScoreBonus = 5;
     
    
     const levelConfig = {
@@ -143,31 +145,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
    
     function showMole() {
-        // Hide all moles first
-        moles.forEach(mole => {
-            mole.classList.remove('active');
-        });
-        
-        // Check if game is still playing
-        if (!isPlaying) return;
-        
-        // Get random hole
-        const randomHole = Math.floor(Math.random() * holes.length);
-        const mole = holes[randomHole].querySelector('.mole');
-        
-        // Show the mole
-        mole.classList.add('active');
-        
-        // Calculate show time based on current level
-        const config = levelConfig[currentLevel];
-        const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
-        
-        
-        moleTimer = setTimeout(() => {
-            mole.classList.remove('active');
-            if (isPlaying) showMole();
-        }, showTime);
+    moles.forEach(mole => {
+        mole.classList.remove('active', 'golden');
+    });
+
+    if (!isPlaying) return;
+
+    const randomHole = Math.floor(Math.random() * holes.length);
+    const mole = holes[randomHole].querySelector('.mole');
+
+    // Randomly decide if this is a golden mole
+    const isGolden = Math.random() < goldenMoleChance;
+    if (isGolden) {
+        mole.classList.add('golden');
     }
+
+    mole.classList.add('active');
+
+    const config = levelConfig[currentLevel];
+    const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
+
+    moleTimer = setTimeout(() => {
+        mole.classList.remove('active', 'golden');
+        if (isPlaying) showMole();
+    }, showTime);
+}
     
     
     function endGame() {
@@ -242,11 +244,10 @@ document.addEventListener('DOMContentLoaded', () => {
  
     
 moles.forEach(mole => {
-    mole.addEventListener('click', function() {
+    mole.addEventListener('click', function () {
         if (!isPlaying) return;
-        
+
         if (mole.classList.contains('active') && !mole.classList.contains('whacked')) {
-           
             const soundEnabled = soundToggle.checked;
             if (soundEnabled) {
                 whackSound.currentTime = 0;
@@ -254,19 +255,21 @@ moles.forEach(mole => {
                     console.log("Audio play failed:", error);
                 });
             }
-            
-            
-            score++;
+
+            // Check if golden mole
+            if (mole.classList.contains('golden')) {
+                score += goldenScoreBonus;
+            } else {
+                score++;
+            }
+
             scoreDisplay.textContent = score;
-            
-            
+
             mole.classList.add('whacked');
-            
-           
+
             setTimeout(() => {
-                mole.classList.remove('active');
-                mole.classList.remove('whacked');
-            }, 300); 
+                mole.classList.remove('active', 'whacked', 'golden');
+            }, 300);
         }
     });
 });
