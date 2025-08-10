@@ -687,7 +687,7 @@ body.dark-mode .level-dropdown option:checked {
 
 /* Modal content */
 .modal-content {
-  font-size: 1.5rem; /* Increase for readability */
+  font-size: 1rem; /* Increase for readability */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   position: absolute;
