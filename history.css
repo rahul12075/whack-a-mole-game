@@ -1,0 +1,82 @@
+/* Reset and basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url("https://i.pinimg.com/1200x/b5/37/f6/b537f6af75a3573bda5c9148ed16c5dc.jpg");
+  cursor: url("https://cur.cursors-4u.net/sports/spo-10/spo947.cur"), auto;
+  background-color: #8bc34a;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: monospace;
+}
+
+.game-container {
+  text-align: center;
+  background-color: cornsilk;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+}
+
+h1 {
+  font-family: monospace;
+  font-size: 3rem;
+  color: #502f09;
+  text-shadow: 0 0 5px #03261f, 0 0 10px #03261f;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.history-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.history-entry {
+  background: #654321;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: cornsilk;
+  box-shadow: inset 0 10px 0 0 #432a17;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.clear-btn {
+  background-color: #502f09;
+  color: cornsilk;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+.clear-btn:hover {
+  background-color: #8bc34a;
+  color: #502f09;
+}
+.history-stats {
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: #502f09;
+}
