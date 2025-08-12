@@ -91,6 +91,7 @@ h1 {
 .mole.active {
   top: 15%;
   pointer-events: auto;
+
 }
 
 .game-button {
@@ -799,23 +800,23 @@ body.dark-mode .level-dropdown option:checked {
 }
 
 }
-.mole.golden {
-   position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.golden {
   background-image: url('goldenmole.png') !important;
-  background-size: 125% auto; 
-  background-repeat: no-repeat;
-  background-position: center center; 
-  transition: top 0.3s ease-out;
-  animation: none;
-  pointer-events: none;
-  z-index: 1;
+  z-index: 10;
+   transition: top 0.3s ease-out; 
 }
 
 .mole.golden.active {
   top: 15%;
   pointer-events: auto;
 }
+.bomb {
+    background-image: url('bombMole.png') !important;;
+    z-index: 15; 
+     transition: top 0.3s ease-out;
+}
+
+.mole.bomb.active {
+    top: 15%;
+    pointer-events: auto;
+} 
