@@ -820,3 +820,27 @@ body.dark-mode .level-dropdown option:checked {
     top: 15%;
     pointer-events: auto;
 } 
+
+/* History button */
+#history-btn {
+  position: fixed;
+  top: 20px;
+  left: 170px; /* place it 120px right of How to Play button (20 + ~120 width) */
+  z-index: 1000;
+  padding: 10px 16px;
+  background: #007bff; /* green color */
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+#history-btn:hover {
+  transform: scale(1.05);
+}

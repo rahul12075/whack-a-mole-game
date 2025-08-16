@@ -199,6 +199,27 @@ function showMole() {
             const levelName = levelConfig[currentLevel].label;
             startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
         }, 3000);
+try {
+  // Read existing history or initialize empty array
+  const historyJSON = localStorage.getItem('whackAMoleHistory');
+  const history = historyJSON ? JSON.parse(historyJSON) : [];
+
+  // Create a new record with score and current date/time as ISO string
+  const newRecord = {
+    score: score,
+    timestamp: new Date().toISOString(),
+  };
+
+  // Add new record
+  history.push(newRecord);
+
+  // Save updated history back to localStorage
+  localStorage.setItem('whackAMoleHistory', JSON.stringify(history));
+} catch (error) {
+  console.error('Failed to save game history:', error);
+}
+
+
     }
     
     startButton.addEventListener('click', initGame);
@@ -299,4 +320,7 @@ themeToggleBtn.addEventListener('click', () => {
     ? '<i class="fas fa-sun"></i> Toggle Light Mode'
     : '<i class="fas fa-moon"></i> Toggle Dark Mode';
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+document.getElementById("history-btn").addEventListener("click", () => {
+  window.location.href = "history.html";
 });
