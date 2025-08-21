@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     const holes = document.querySelectorAll('.hole');
     const moles = document.querySelectorAll('.mole');
     const scoreDisplay = document.getElementById('score');
     const timeDisplay = document.getElementById('time');
     const startButton = document.getElementById('start-button');
+    const pauseButton = document.getElementById('pause-button'); // Added for pause feature
     const soundToggle = document.getElementById('sound-toggle');
     const gameOverTag = document.getElementById('game-over-tag');
     const scorePopup = document.getElementById('score-popup');
@@ -25,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameTimer;
     let moleTimer;
     let isPlaying = false;
-    let currentLevel = 'easy'; 
+    let isPaused = false; // Added for pause feature
+    let currentLevel = 'easy';
     let goldenMoleChance = 0.15; // 15% chance for golden mole
     let bombMoleChance = 0.15;   // 15% chance for bomb mole
     let goldenScoreBonus = 5;
@@ -63,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     backgroundMusic.loop = false;
     backgroundMusic.volume = 0.5;
     
+    pauseButton.disabled = true; // Added for pause feature
+
+    // Initialize theme
     const savedTheme = localStorage.getItem('gameTheme') || 'classic';
     document.body.setAttribute('data-theme', savedTheme);
     themeSelect.value = savedTheme;
@@ -80,15 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const levelName = levelConfig[currentLevel].label;
         startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
     });
-   
+    
     function initGame() {
         score = 0;
         timeLeft = levelConfig[currentLevel].timeLimit;
         isPlaying = true;
+        isPaused = false; // Added for pause feature
         
         scoreDisplay.textContent = score;
         timeDisplay.textContent = timeLeft;
         startButton.disabled = true;
+        pauseButton.disabled = false; // Added for pause feature
+        pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause'; // Added for pause feature
         gameOverTag.style.display = 'none';
         scorePopup.style.display = 'none';
         levelSelect.disabled = true;
@@ -122,53 +130,55 @@ document.addEventListener('DOMContentLoaded', () => {
         
         showMole();
     }
+    
     let lastHoleIndex = -1;
 
-function showMole() {
-    moles.forEach(mole => {
-        mole.classList.remove('active', 'golden', 'bomb');
-    });
+    function showMole() {
+        moles.forEach(mole => {
+            mole.classList.remove('active', 'golden', 'bomb');
+        });
 
-    if (!isPlaying) return;
+        if (!isPlaying || isPaused) return;
 
-    clearTimeout(moleTimer);
+        clearTimeout(moleTimer);
 
-    // Pick a random hole different from last hole
-    let randomHole;
-    if (holes.length === 1) {
-        randomHole = 0;
-    } else {
-        do {
-            randomHole = Math.floor(Math.random() * holes.length);
-        } while (randomHole === lastHoleIndex);
+        // Pick a random hole different from last hole
+        let randomHole;
+        if (holes.length === 1) {
+            randomHole = 0;
+        } else {
+            do {
+                randomHole = Math.floor(Math.random() * holes.length);
+            } while (randomHole === lastHoleIndex);
+        }
+        lastHoleIndex = randomHole;
+
+        const mole = holes[randomHole].querySelector('.mole');
+
+        const rand = Math.random();
+        if (rand < goldenMoleChance) {
+            mole.classList.add('golden');
+        } else if (rand < goldenMoleChance + bombMoleChance) {
+            mole.classList.add('bomb');
+        }
+
+        mole.classList.add('active');
+
+        const config = levelConfig[currentLevel];
+        const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
+
+        moleTimer = setTimeout(() => {
+            mole.classList.remove('active', 'golden', 'bomb');
+            if (isPlaying) showMole();
+        }, showTime);
     }
-    lastHoleIndex = randomHole;
-
-    const mole = holes[randomHole].querySelector('.mole');
-
-    const rand = Math.random();
-    if (rand < goldenMoleChance) {
-        mole.classList.add('golden');
-    } else if (rand < goldenMoleChance + bombMoleChance) {
-        mole.classList.add('bomb');
-    }
-
-    mole.classList.add('active');
-
-    const config = levelConfig[currentLevel];
-    const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
-
-    moleTimer = setTimeout(() => {
-        mole.classList.remove('active', 'golden', 'bomb');
-        if (isPlaying) showMole();
-    }, showTime);
-}
-
     
     function endGame() {
         clearInterval(gameTimer);
         clearTimeout(moleTimer);
         isPlaying = false;
+        isPaused = false;
+        pauseButton.disabled = true;
         
         moles.forEach(mole => {
             mole.classList.remove('active');
@@ -199,30 +209,67 @@ function showMole() {
             const levelName = levelConfig[currentLevel].label;
             startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
         }, 3000);
-try {
-  // Read existing history or initialize empty array
-  const historyJSON = localStorage.getItem('whackAMoleHistory');
-  const history = historyJSON ? JSON.parse(historyJSON) : [];
+        
+        try {
+            // Read existing history or initialize empty array
+            const historyJSON = localStorage.getItem('whackAMoleHistory');
+            const history = historyJSON ? JSON.parse(historyJSON) : [];
 
-  // Create a new record with score and current date/time as ISO string
-  const newRecord = {
-    score: score,
-    timestamp: new Date().toISOString(),
-  };
+            // Create a new record with score and current date/time as ISO string
+            const newRecord = {
+                score: score,
+                timestamp: new Date().toISOString(),
+            };
 
-  // Add new record
-  history.push(newRecord);
+            // Add new record
+            history.push(newRecord);
 
-  // Save updated history back to localStorage
-  localStorage.setItem('whackAMoleHistory', JSON.stringify(history));
-} catch (error) {
-  console.error('Failed to save game history:', error);
-}
-
-
+            // Save updated history back to localStorage
+            localStorage.setItem('whackAMoleHistory', JSON.stringify(history));
+        } catch (error) {
+            console.error('Failed to save game history:', error);
+        }
     }
     
     startButton.addEventListener('click', initGame);
+    
+    // --- Entire block added for pause feature ---
+    pauseButton.addEventListener('click', () => {
+        if (!isPlaying) return;
+
+        isPaused = !isPaused;
+
+        if (isPaused) {
+            // Pause the game
+            clearInterval(gameTimer);
+            clearTimeout(moleTimer);
+            backgroundMusic.pause();
+            pauseButton.innerHTML = '<i class="fas fa-play"></i> Resume';
+        } else {
+            // Resume the game
+            pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            if (soundToggle.checked) {
+                backgroundMusic.play().catch(error => console.log("Audio play failed:", error));
+            }
+
+            const soundEnabled = soundToggle.checked;
+            gameTimer = setInterval(() => {
+                timeLeft--;
+                timeDisplay.textContent = timeLeft;
+                if (timeLeft === 1 && soundEnabled) {
+                    gameOverSound.currentTime = 0;
+                    gameOverSound.load();
+                }
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+
+            showMole();
+        }
+    });
+    // --- End of pause feature block ---
+
     const restartButton = document.getElementById('restart-button');
     restartButton.addEventListener('click', function () {
         if (isPlaying) {
@@ -237,10 +284,10 @@ try {
         levelSelect.disabled = false;
         initGame();
     });
- 
+
     moles.forEach(mole => {
         mole.addEventListener('click', function () {
-            if (!isPlaying) return;
+            if (!isPlaying || isPaused) return;
 
             if (mole.classList.contains('active') && !mole.classList.contains('whacked')) {
                 const soundEnabled = soundToggle.checked;
@@ -295,7 +342,7 @@ try {
         gameOverSound.volume = soundEnabled ? 1.0 : 0;
         backgroundMusic.volume = soundEnabled ? 0.5 : 0;
         
-        if (isPlaying && soundEnabled && backgroundMusic.paused) {
+        if (isPlaying && !isPaused && soundEnabled && backgroundMusic.paused) { 
             backgroundMusic.play().catch(error => {
                 console.log("Audio play failed:", error);
             });
@@ -304,23 +351,24 @@ try {
             backgroundMusic.pause();
         }
     });
-});
 
-const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleBtn = document.getElementById('theme-toggle');
 
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Toggle Light Mode';
-}
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Toggle Light Mode';
+    }
 
-themeToggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  const isDark = document.body.classList.contains('dark-mode');
-  themeToggleBtn.innerHTML = isDark
-    ? '<i class="fas fa-sun"></i> Toggle Light Mode'
-    : '<i class="fas fa-moon"></i> Toggle Dark Mode';
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
-});
-document.getElementById("history-btn").addEventListener("click", () => {
-  window.location.href = "history.html";
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeToggleBtn.innerHTML = isDark
+        ? '<i class="fas fa-sun"></i> Toggle Light Mode'
+        : '<i class="fas fa-moon"></i> Toggle Dark Mode';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    document.getElementById("history-btn").addEventListener("click", () => {
+      window.location.href = "history.html";
+    });
 });

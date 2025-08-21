@@ -11,73 +11,92 @@
     <link rel="stylesheet" href="whack-a-mole.css">
 </head>
 <body>
-    
-    <!-- LIGHT AND DARK MODE -->
-     <button id="theme-toggle" class="theme-toggle-btn">
-     <i class="fas fa-moon"></i> Toggle Dark Mode
-     </button>
+<!-- LIGHT AND DARK MODE -->
+<button id="theme-toggle" class="theme-toggle-btn">
+  <i class="fas fa-moon"></i> Toggle Dark Mode
+</button>
+
 <!-- How to Play Button -->
-  <button id="how-to-play-btn">
-<i class="fas fa-info-circle" style="margin-right: 6px;"></i>    How to Play
-  </button>
+<button id="how-to-play-btn">
+  <i class="fas fa-info-circle" style="margin-right: 6px;"></i> How to Play
+</button>
 
 <!-- History Button -->
 <button id="history-btn">
   <i class="fas fa-history" style="margin-right: 6px;"></i> History
 </button>
 
-  <!-- Modal -->
-  <div id="how-to-modal" class="modal">
-    <div class="modal-content">
-      <span id="close-modal" class="close-btn">&times;</span>
-      <h2>📘 How to Play</h2>
+<!-- Modal -->
+<div id="how-to-modal" class="modal">
+  <div class="modal-content">
+    <span id="close-modal" class="close-btn">&times;</span>
+    <h2>📘 How to Play</h2>
 
-      <div class="step">
-        <p><strong>Step 1:</strong> Choose a difficulty level — Easy, Medium, or Hard.
-(Harder levels make the moles appear and disappear faster.)</p>
-      </div>
-
-      <div class="step">
-        <p><strong>Step 2:</strong> You will get 30 seconds to play the game.</p>
-      </div>
-
-      <div class="step">
-        <p><strong>Step 3:</strong> Moles will pop up randomly on the screen.</p>
-      </div>
-
-      <div class="step">
-        <p><strong>Step 4:</strong> Click on the moles as fast as you can to hit them.</p>
-      </div>
-      <div class="step">
-        <p><strong>Step 5:</strong> If you hit a mole, you get points.
-If you miss, you don’t get any points.</p>
-      </div>
-      <div class="step">
-        <p><strong>Step 6:</strong> Try to get the highest score before time runs out!
-
-</p>
-      </div>
-
-      <p class="footer-text">Have fun and give it your best shot! 🎯</p>
+    <div class="step">
+      <p><strong>Step 1:</strong> Choose a difficulty level — Easy, Medium, or Hard.
+      (Harder levels make the moles appear and disappear faster.)</p>
     </div>
+
+    <div class="step">
+      <p><strong>Step 2:</strong> You will get 30 seconds to play the game.</p>
+    </div>
+
+    <div class="step">
+      <p><strong>Step 3:</strong> Moles will pop up randomly on the screen.</p>
+    </div>
+
+    <div class="step">
+      <p><strong>Step 4:</strong> Click on the moles as fast as you can to hit them.</p>
+    </div>
+
+    <div class="step">
+      <p><strong>Step 5:</strong> If you hit a mole, you get points.
+      If you miss, you don’t get any points.</p>
+    </div>
+
+    <div class="step">
+      <p><strong>Step 6:</strong> Try to get the highest score before time runs out!</p>
+    </div>
+
+    <p class="footer-text">Have fun and give it your best shot! 🎯</p>
   </div>
+</div>
 
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="index.html" class="navbar-logo">Whack-a-Mole 🐹</a>
+    <ul class="navbar-menu">
+      <li><a href="index.html" >Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub</a></li>
+    </ul>
+    
 
-    <!-- THEME SELECTOR -->
-    <div class="theme-selector">
+    <!-- Wrap theme controls in a div for flex layout -->
+    <div class="theme-controls">
+      <button id="theme-toggle" class="theme-toggle-btn">
+        <i class="fas fa-moon"></i> Toggle Dark Mode
+      </button>
+
+      <div class="theme-selector">
         <label for="theme-select" class="theme-label">
-            <i class="fas fa-palette"></i> Theme:
+          <i class="fas fa-palette"></i> Theme:
         </label>
         <select id="theme-select" class="theme-dropdown">
-            <option value="classic">🏡 Classic Garden</option>
-            <option value="desert">🏜️ Desert Adventure</option>
-            <option value="ocean">🌊 Ocean World</option>
-            <option value="space">🚀 Space Mission</option>
-            <option value="forest">🌲 Enchanted Forest</option>
+          <option value="classic">🏡 Classic Garden</option>
+          <option value="desert">🏜️ Desert Adventure</option>
+          <option value="ocean">🌊 Ocean World</option>
+          <option value="space">🚀 Space Mission</option>
+          <option value="forest">🌲 Enchanted Forest</option>
         </select>
+      </div>
     </div>
+  </div>
+</nav>
 
     <div class="game-container">
+
+        
         <h1>Whack-a-Mole</h1>
         
         <div class="game-info">
@@ -147,10 +166,10 @@ If you miss, you don’t get any points.</p>
     <div class="score-popup" id="score-popup">Final Score: <span id="final-score">0</span></div>
 </div>
         
-        
-         <button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game (Easy)</button>
-         <button id="restart-button" class="game-button">Restart Game</button>
-        
+<button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game (Easy)</button>
+<button id="pause-button" class="game-button"><i class="fas fa-pause"></i> Pause</button>
+<button id="restart-button" class="game-button">Restart Game</button>
+
         <div class="sound-controls">
             <label>
                 <input type="checkbox" id="sound-toggle" checked>
@@ -158,15 +177,15 @@ If you miss, you don’t get any points.</p>
             </label>
         </div>
         
-        <footer class="footer">
+     
+    </div>
+       <footer class="footer">
          <p>
             Created with <span class="heart">❤️</span> by 
             <a href="https://github.com/Samrudhipawar" target="_blank">Samrudhi Pawar</a> | 
             <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub Repo</a>
          </p>
         </footer>
-    </div>
-    
     <script src="whack-a-mole.js"></script>
 </body>
 </html>
