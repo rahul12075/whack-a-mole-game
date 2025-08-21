@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let highScore = localStorage.getItem('highScore') || 0;
     highScoreDisplay.textContent = highScore;
 
- 
     let score = 0;
     let timeLeft = 30;
     let gameTimer;
@@ -29,7 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPlaying = false;
     let isPaused = false; // Added for pause feature
     let currentLevel = 'easy';
-    
+    let goldenMoleChance = 0.15; // 15% chance for golden mole
+    let bombMoleChance = 0.15;   // 15% chance for bomb mole
+    let goldenScoreBonus = 5;
+    let bombScorePenalty = 5;
     
     const levelConfig = {
         easy: {
@@ -60,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameOverSound = new Audio('sounds/game-over.mp3');
     const backgroundMusic = new Audio('sounds/background.mp3');
     
-    
     backgroundMusic.loop = false;
     backgroundMusic.volume = 0.5;
     
@@ -71,24 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.setAttribute('data-theme', savedTheme);
     themeSelect.value = savedTheme;
     
-    // Theme selection event listener
     themeSelect.addEventListener('change', () => {
         const selectedTheme = themeSelect.value;
         document.body.setAttribute('data-theme', selectedTheme);
         localStorage.setItem('gameTheme', selectedTheme);
     });
     
-    // Level selection event listener
     levelSelect.addEventListener('change', () => {
-        // Update current level
         currentLevel = levelSelect.value;
-        
-        // Update time display based on selected level
         timeDisplay.textContent = levelConfig[currentLevel].timeLimit;
-        
-        // Update background color based on selected level
         document.getElementById('level-select').style.background = levelConfig[currentLevel].background;
-        // Update start button text
         const levelName = levelConfig[currentLevel].label;
         startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
     });
@@ -99,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isPlaying = true;
         isPaused = false; // Added for pause feature
         
-        // Update UI
         scoreDisplay.textContent = score;
         timeDisplay.textContent = timeLeft;
         startButton.disabled = true;
@@ -107,19 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
         pauseButton.innerHTML = '<i class="fas fa-pause"></i> Pause'; // Added for pause feature
         gameOverTag.style.display = 'none';
         scorePopup.style.display = 'none';
-        
-        // Disable level selection during game
         levelSelect.disabled = true;
         
-        // Handle background music
         const soundEnabled = soundToggle.checked;
         if (soundEnabled) {
             backgroundMusic.currentTime = 0;
             backgroundMusic.play().catch(error => {
                 console.log("Audio play failed:", error);
             });
-            
-            // Stop background music before game ends
             setTimeout(() => {
                 if (isPlaying) {
                     backgroundMusic.pause();
@@ -127,104 +114,123 @@ document.addEventListener('DOMContentLoaded', () => {
             }, (timeLeft - 1) * 1000);
         }
         
-        
         gameTimer = setInterval(() => {
             timeLeft--;
             timeDisplay.textContent = timeLeft;
-            
             if (timeLeft === 1) {
                 if (soundEnabled) {
                     gameOverSound.currentTime = 0;
                     gameOverSound.load();
                 }
             }
-            
             if (timeLeft <= 0) {
                 endGame();
             }
         }, 1000);
         
-       
         showMole();
     }
     
-   
+    let lastHoleIndex = -1;
+
     function showMole() {
-        // Hide all moles first
         moles.forEach(mole => {
-            mole.classList.remove('active');
+            mole.classList.remove('active', 'golden', 'bomb');
         });
-        
-        // Check if game is still playing
-        if (!isPlaying || isPaused) return; // Modified for pause feature
-        
-        // Get random hole
-        const randomHole = Math.floor(Math.random() * holes.length);
+
+        if (!isPlaying || isPaused) return;
+
+        clearTimeout(moleTimer);
+
+        // Pick a random hole different from last hole
+        let randomHole;
+        if (holes.length === 1) {
+            randomHole = 0;
+        } else {
+            do {
+                randomHole = Math.floor(Math.random() * holes.length);
+            } while (randomHole === lastHoleIndex);
+        }
+        lastHoleIndex = randomHole;
+
         const mole = holes[randomHole].querySelector('.mole');
-        
-        // Show the mole
+
+        const rand = Math.random();
+        if (rand < goldenMoleChance) {
+            mole.classList.add('golden');
+        } else if (rand < goldenMoleChance + bombMoleChance) {
+            mole.classList.add('bomb');
+        }
+
         mole.classList.add('active');
-        
-        // Calculate show time based on current level
+
         const config = levelConfig[currentLevel];
         const showTime = Math.random() * (config.maxMoleTime - config.minMoleTime) + config.minMoleTime;
-        
-        
+
         moleTimer = setTimeout(() => {
-            mole.classList.remove('active');
+            mole.classList.remove('active', 'golden', 'bomb');
             if (isPlaying) showMole();
         }, showTime);
     }
-    
     
     function endGame() {
         clearInterval(gameTimer);
         clearTimeout(moleTimer);
         isPlaying = false;
-        pauseButton.disabled = true; // Added for pause feature
+        isPaused = false;
+        pauseButton.disabled = true;
         
-        // Hide all moles
         moles.forEach(mole => {
             mole.classList.remove('active');
         });
         
-        // Re-enable level selection
         levelSelect.disabled = false;
-       
-        // Stop background music
         backgroundMusic.pause();
         
-        // Play game over sound
         const soundEnabled = soundToggle.checked;
         if (soundEnabled) {
             gameOverSound.play().catch(error => {
                 console.log("Game over sound failed:", error);
             });
         }
-       
-        // Show game over message
-        gameOverTag.style.display = 'block';
         
-        // Show final score
+        gameOverTag.style.display = 'block';
         finalScoreDisplay.textContent = score;
         scorePopup.style.display = 'block';
 
-        // Update high score if necessary
         if (score > highScore) {
             highScore = score;
             localStorage.setItem('highScore', highScore);
             highScoreDisplay.textContent = highScore;
         }
         
-        // Re-enable start button after delay
         setTimeout(() => {
             startButton.disabled = false;
             const levelName = levelConfig[currentLevel].label;
             startButton.innerHTML = `<i class="fas fa-play"></i> Start Game (${levelName})`;
         }, 3000);
+        
+        try {
+            // Read existing history or initialize empty array
+            const historyJSON = localStorage.getItem('whackAMoleHistory');
+            const history = historyJSON ? JSON.parse(historyJSON) : [];
+
+            // Create a new record with score and current date/time as ISO string
+            const newRecord = {
+                score: score,
+                timestamp: new Date().toISOString(),
+            };
+
+            // Add new record
+            history.push(newRecord);
+
+            // Save updated history back to localStorage
+            localStorage.setItem('whackAMoleHistory', JSON.stringify(history));
+        } catch (error) {
+            console.error('Failed to save game history:', error);
+        }
     }
     
-   
     startButton.addEventListener('click', initGame);
     
     // --- Entire block added for pause feature ---
@@ -267,94 +273,102 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.getElementById('restart-button');
     restartButton.addEventListener('click', function () {
         if (isPlaying) {
-            // Stop current game
             clearInterval(gameTimer);
             clearTimeout(moleTimer);
             backgroundMusic.pause();
             isPlaying = false;
         }
-
-        // Hide all moles
         moles.forEach(mole => {
             mole.classList.remove('active');
         });
-
-        // Re-enable level selection
         levelSelect.disabled = false;
-        
-        // Start new game with current level
         initGame();
     });
 
-    
-moles.forEach(mole => {
-    mole.addEventListener('click', function() {
-        if (!isPlaying || isPaused) return; // Modified for pause feature
-        
-        if (mole.classList.contains('active') && !mole.classList.contains('whacked')) {
-           
-            const soundEnabled = soundToggle.checked;
-            if (soundEnabled) {
-                whackSound.currentTime = 0;
-                whackSound.play().catch(error => {
-                    console.log("Audio play failed:", error);
-                });
+    moles.forEach(mole => {
+        mole.addEventListener('click', function () {
+            if (!isPlaying || isPaused) return;
+
+            if (mole.classList.contains('active') && !mole.classList.contains('whacked')) {
+                const soundEnabled = soundToggle.checked;
+                if (soundEnabled) {
+                    whackSound.currentTime = 0;
+                    whackSound.play().catch(error => {
+                        console.log("Audio play failed:", error);
+                    });
+                }
+
+                if (mole.classList.contains('golden')) {
+                    score += goldenScoreBonus;
+                } else if (mole.classList.contains('bomb')) {
+                    score -= bombScorePenalty;
+                    if (score < 0) {
+                        endGame();
+                        return;
+                    }
+                } else {
+                    score++;
+                }
+
+                scoreDisplay.textContent = score;
+                mole.classList.add('whacked');
+
+                setTimeout(() => {
+                    mole.classList.remove('active', 'whacked', 'golden', 'bomb');
+                }, 300);
             }
-            
-            
-            score++;
-            scoreDisplay.textContent = score;
-            
-            
-            mole.classList.add('whacked');
-            
-           
-            setTimeout(() => {
-                mole.classList.remove('active');
-                mole.classList.remove('whacked');
-            }, 300); 
-        }
+        });
     });
-});
-    
-    
+
+    const howToPlayBtn = document.getElementById('how-to-play-btn');
+    const howToModal = document.getElementById('how-to-modal');
+    const closeBtn = document.getElementById('close-modal');
+
+    howToPlayBtn.addEventListener('click', () => {
+      howToModal.style.display = 'block';
+    });
+    closeBtn.addEventListener('click', () => {
+      howToModal.style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+      if (e.target === howToModal) {
+        howToModal.style.display = 'none';
+      }
+    });
+
     soundToggle.addEventListener('change', function() {
         const soundEnabled = this.checked;
-        
-       
         whackSound.volume = soundEnabled ? 1.0 : 0;
         gameOverSound.volume = soundEnabled ? 1.0 : 0;
         backgroundMusic.volume = soundEnabled ? 0.5 : 0;
         
-        
-        if (isPlaying && !isPaused && soundEnabled && backgroundMusic.paused) { // Modified for pause feature
+        if (isPlaying && !isPaused && soundEnabled && backgroundMusic.paused) { 
             backgroundMusic.play().catch(error => {
                 console.log("Audio play failed:", error);
             });
         }
-        
-       
         if (isPlaying && !soundEnabled && !backgroundMusic.paused) {
             backgroundMusic.pause();
         }
     });
-});
 
-// LIGHT AND DARK MODE
-const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleBtn = document.getElementById('theme-toggle');
 
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark-mode');
-  themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Toggle Light Mode';
-}
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i> Toggle Light Mode';
+    }
 
-themeToggleBtn.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-  const isDark = document.body.classList.contains('dark-mode');
-  themeToggleBtn.innerHTML = isDark
-    ? '<i class="fas fa-sun"></i> Toggle Light Mode'
-    : '<i class="fas fa-moon"></i> Toggle Dark Mode';
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeToggleBtn.innerHTML = isDark
+        ? '<i class="fas fa-sun"></i> Toggle Light Mode'
+        : '<i class="fas fa-moon"></i> Toggle Dark Mode';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
 
-  //  choice
-  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    document.getElementById("history-btn").addEventListener("click", () => {
+      window.location.href = "history.html";
+    });
 });
