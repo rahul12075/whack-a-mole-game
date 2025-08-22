@@ -372,3 +372,20 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = "history.html";
     });
 });
+const factsBtn = document.getElementById("factsBtn");
+const factsModal = document.getElementById("facts-modal");
+const closeFacts = document.getElementById("close-facts");
+
+factsBtn.onclick = () => {
+  factsModal.style.display = "flex";
+};
+
+closeFacts.onclick = () => {
+  factsModal.style.display = "none";
+};
+
+window.onclick = (e) => {
+  if (e.target === factsModal) {
+    factsModal.style.display = "none";
+  }
+};
