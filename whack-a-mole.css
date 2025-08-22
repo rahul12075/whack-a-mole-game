@@ -146,7 +146,7 @@ h1 {
 }
 .game-over-tag {
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #ff0000;
@@ -905,3 +905,53 @@ body.dark-mode .level-dropdown option:checked {
 #history-btn:hover {
   transform: scale(1.05);
 }
+
+.share-buttons {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.share-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.share-icon:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+/* WhatsApp */
+.share-icon.whatsapp {
+  background: #25d366;
+}
+
+/* Telegram */
+.share-icon.telegram {
+  background: #0088cc;
+}
+
+/* Instagram gradient */
+.share-icon.instagram {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+
+/* Twitter */
+.share-icon.twitter {
+  background: #1da1f2;
+}
+
+/* Generic native share */
+.share-icon.native {
+  background: #444;
+}
+
