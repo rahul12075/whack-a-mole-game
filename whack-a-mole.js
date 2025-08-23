@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const scorePopup = document.getElementById('score-popup');
     const finalScoreDisplay = document.getElementById('final-score');
     const highScoreDisplay = document.getElementById('high-score');
+    const shareWhatsapp = document.getElementById("share-whatsapp");
+const shareTelegram = document.getElementById("share-telegram");
+const shareInstagram = document.getElementById("share-instagram");
+const shareTwitter = document.getElementById("share-twitter");
+const shareNative = document.getElementById("share-native");
     
     // Level selection elements
     const levelSelect = document.getElementById('level-select');
@@ -230,7 +235,60 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Failed to save game history:', error);
         }
     }
-    
+    function getShareMessage() {
+  return `🎯 I just scored ${score} points in Whack-a-Mole! 🐹
+Play here: ${window.location.href}`;
+}
+
+if (shareWhatsapp) {
+  shareWhatsapp.addEventListener("click", () => {
+    const text = encodeURIComponent(getShareMessage());
+    window.open(`https://wa.me/?text=${text}`, "_blank");
+  });
+}
+
+if (shareTelegram) {
+  shareTelegram.addEventListener("click", () => {
+    const text = encodeURIComponent(getShareMessage());
+    window.open(
+      `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${text}`,
+      "_blank"
+    );
+  });
+}
+
+if (shareInstagram) {
+  shareInstagram.addEventListener("click", () => {
+    navigator.clipboard.writeText(getShareMessage());
+    alert("📋 Score copied! Paste it into Instagram/Stories manually.");
+    window.open("https://instagram.com", "_blank");
+  });
+}
+if (shareTwitter) {
+  shareTwitter.addEventListener("click", () => {
+    const text = encodeURIComponent(getShareMessage());
+    window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank");
+  });
+}
+
+if (shareNative) {
+  shareNative.addEventListener("click", async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Whack-a-Mole",
+          text: getShareMessage(),
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.log("Share cancelled:", err);
+      }
+    } else {
+      alert("Sharing not supported on this browser.");
+    }
+  });
+}
+
     startButton.addEventListener('click', initGame);
     
     // --- Entire block added for pause feature ---
