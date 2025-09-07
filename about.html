@@ -28,6 +28,7 @@
       margin: 0;
       color: #333;
       line-height: 1.6;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
 
@@ -39,23 +40,52 @@
     }
 
     h1 {
-      color: #035f08;
+      /* color: #035f08; */
       font-size: 2.5rem;
       margin-bottom: 20px;
       text-align: center;
+      color: #ffffff;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
     }
 
     section {
-      background: white;
+      background:  rgba(255, 255, 255, 0.6);
       padding: 24px 32px;
-      border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
       margin-bottom: 40px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      backdrop-filter: blur(8px); /* frosted glass effect */
+      -webkit-backdrop-filter: blur(8px);
     }
 
     section h2 {
+      text-align: center;
+      font-size: 22px;
       color: #283593;
       margin-top: 0;
+      padding-bottom: 6px;
+      border-bottom: 3px solid #4caf50; /* accent underline */
+    }
+
+    .container p{
+      font-weight: 500;
+      color :black;
+    }
+    section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .section p a {
+      color: #035f08;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    section p a:hover {
+      color: #0288d1;
+      text-decoration: underline;
     }
 
     @media (max-width: 480px) {
@@ -122,7 +152,7 @@
   <section>
     <h2>Contact</h2>
     <p>Have questions or feedback? Reach out to us:</p>
-    <p>GitHub: <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank" rel="noopener">github.com/Samrudhipawar/whack-a-mole-game</a></p>
+    <p>GitHub: <a class="link" href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank" rel="noopener">github.com/Samrudhipawar/whack-a-mole-game</a></p>
   </section>
 </div>
 
