@@ -1,63 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="favicon-whack-a-mole-game.png">
-    <title>Whack-a-Mole Game</title>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="whack-a-mole.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="favicon-whack-a-mole-game.png">
+  <title>Whack-a-Mole Game</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="whack-a-mole.css">
 </head>
 <body>
-<!-- LIGHT AND DARK MODE -->
-<button id="theme-toggle" class="theme-toggle-btn">
-  <i class="fas fa-moon"></i> Toggle Dark Mode
-</button>
 
-<!-- How to Play Button -->
-<button id="how-to-play-btn">
-  <i class="fas fa-info-circle" style="margin-right: 6px;"></i> How to Play
-</button>
-
-<!-- History Button -->
-<button id="history-btn">
-  <i class="fas fa-history" style="margin-right: 6px;"></i> History
-</button>
-
-<!-- Modal -->
+<!-- Modals (stay outside navbar) -->
 <div id="how-to-modal" class="modal">
   <div class="modal-content">
     <span id="close-modal" class="close-btn">&times;</span>
     <h2>📘 How to Play</h2>
-
-    <div class="step">
-      <p><strong>Step 1:</strong> Choose a difficulty level — Easy, Medium, or Hard.
-      (Harder levels make the moles appear and disappear faster.)</p>
-    </div>
-
-    <div class="step">
-      <p><strong>Step 2:</strong> You will get 30 seconds to play the game.</p>
-    </div>
-
-    <div class="step">
-      <p><strong>Step 3:</strong> Moles will pop up randomly on the screen.</p>
-    </div>
-
-    <div class="step">
-      <p><strong>Step 4:</strong> Click on the moles as fast as you can to hit them.</p>
-    </div>
-
-    <div class="step">
-      <p><strong>Step 5:</strong> If you hit a mole, you get points.
-      If you miss, you don’t get any points.</p>
-    </div>
-
-    <div class="step">
-      <p><strong>Step 6:</strong> Try to get the highest score before time runs out!</p>
-    </div>
-
+    <div class="step"><p><strong>Step 1:</strong> Choose a difficulty level — Easy, Medium, or Hard.</p></div>
+    <div class="step"><p><strong>Step 2:</strong> You will get 30 seconds to play the game.</p></div>
+    <div class="step"><p><strong>Step 3:</strong> Moles will pop up randomly on the screen.</p></div>
+    <div class="step"><p><strong>Step 4:</strong> Click on the moles as fast as you can to hit them.</p></div>
+    <div class="step"><p><strong>Step 5:</strong> If you hit a mole, you get points.</p></div>
+    <div class="step"><p><strong>Step 6:</strong> Try to get the highest score before time runs out!</p></div>
     <p class="footer-text">Have fun and give it your best shot! 🎯</p>
   </div>
 </div>
@@ -66,7 +30,6 @@
   <div class="modal-content">
     <span id="close-facts" class="close-btn">&times;</span>
     <h2>💡 Did You Know?</h2>
-
     <div class="fact"><p><strong>Fact 1:</strong> Moles are insectivores, not rodents.</p></div>
     <div class="fact"><p><strong>Fact 2:</strong> Whack-a-mole was invented in Japan in 1975.</p></div>
     <div class="fact"><p><strong>Fact 3:</strong> A mole can dig up to 18 feet of tunnels in one hour.</p></div>
@@ -75,28 +38,36 @@
     <div class="fact"><p><strong>Fact 6:</strong> The largest whack-a-mole arcade machine ever built is over 10 feet tall!</p></div>
     <div class="fact"><p><strong>Fact 7:</strong> Some mole species can tolerate low oxygen environments underground.</p></div>
     <div class="fact"><p><strong>Fact 8:</strong> The arcade version of Whack-a-Mole was so popular it inspired video games in the 1980s.</p></div>
-
     <p class="footer-text">Learning is fun! 🌟</p>
   </div>
 </div>
 
-
+<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-container">
     <a href="index.html" class="navbar-logo">Whack-a-Mole 🐹</a>
+    
     <ul class="navbar-menu">
-      <li><a href="index.html" >Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub</a></li>
     </ul>
-    
 
-    <!-- Wrap theme controls in a div for flex layout -->
+    <!-- Moved action buttons inside navbar -->
+    <div class="action-buttons">
+      <button id="how-to-play-btn">
+        <i class="fas fa-info-circle"></i> How to Play
+      </button>
+      <button id="history-btn">
+        <i class="fas fa-history"></i> History
+      </button>
+    </div>
+
+    <!-- Theme Controls -->
     <div class="theme-controls">
       <button id="theme-toggle" class="theme-toggle-btn">
         <i class="fas fa-moon"></i> Toggle Dark Mode
       </button>
-
       <div class="theme-selector">
         <label for="theme-select" class="theme-label">
           <i class="fas fa-palette"></i> Theme:
@@ -113,108 +84,97 @@
   </div>
 </nav>
 
-    <div class="game-container">
+<!-- GAME CONTAINER -->
+<div class="game-container">
+  <h1>Whack-a-Mole</h1>
+  <div class="game-info">
+    <div class="score">Score: <span id="score">0</span></div>
+    <div class="high-score">High Score: <span id="high-score">0</span></div>
+    <div class="time">Time: <span id="time">30</span>s</div>
+  </div>
 
-        
-        <h1>Whack-a-Mole</h1>
-        
-        <div class="game-info">
-            <div class="score">Score: <span id="score">0</span></div>
-            <div class="high-score">High Score: <span id="high-score">0</span></div>
-            <div class="time">Time: <span id="time">30</span>s</div>
-        </div>
-        
-        <div class="level-selection">
-            <h3>Select Difficulty Level:</h3>
-            <div class="level-dropdown-container">
-                <label for="level-select" class="level-label">
-                    <i class="fas fa-gamepad"></i> Choose Level:
-                </label>
-                <select id="level-select" class="level-dropdown">
-                    <option value="easy" data-time="30" data-speed="Slow">
-                        🌱 Easy - 30s | Slow Speed
-                    </option>
-                    <option value="medium" data-time="45" data-speed="Medium">
-                        🔥 Medium - 45s | Medium Speed
-                    </option>
-                    <option value="hard" data-time="60" data-speed="Fast">
-                        ⚡ Hard - 60s | Fast Speed
-                    </option>
-                </select>
-            </div>
-        </div>
-        
-         <div class="game-board">
+  <div class="level-selection">
+    <h3>Select Difficulty Level:</h3>
+    <div class="level-dropdown-container">
+      <label for="level-select" class="level-label">
+        <i class="fas fa-gamepad"></i> Choose Level:
+      </label>
+      <select id="level-select" class="level-dropdown">
+        <option value="easy" data-time="30" data-speed="Slow">🌱 Easy - 30s | Slow Speed</option>
+        <option value="medium" data-time="45" data-speed="Medium">🔥 Medium - 45s | Medium Speed</option>
+        <option value="hard" data-time="60" data-speed="Fast">⚡ Hard - 60s | Fast Speed</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="game-board">
     <div class="hole" id="hole-0">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
-
-<div class="hole" id="hole-1">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
-
-<div class="hole" id="hole-2">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
-
-<div class="hole" id="hole-3">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
-
-<div class="hole" id="hole-4">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
-
-<div class="hole" id="hole-5">
-    <div class="mole"></div>
-    <div class="mole golden"></div>
-    <div class="mole bomb"></div>
-</div>
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
+    <div class="hole" id="hole-1">
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
+    <div class="hole" id="hole-2">
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
+    <div class="hole" id="hole-3">
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
+    <div class="hole" id="hole-4">
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
+    <div class="hole" id="hole-5">
+      <div class="mole"></div>
+      <div class="mole golden"></div>
+      <div class="mole bomb"></div>
+    </div>
 
     <div class="game-over-tag" id="game-over-tag">GAME-OVER</div>
     <div class="score-popup" id="score-popup">Final Score: <span id="final-score">0</span>
-    <div class="share-buttons">
-  <p>Share your score:</p>
-  <a id="share-whatsapp" class="share-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
-  <a id="share-telegram" class="share-icon telegram"><i class="fab fa-telegram"></i></a>
-  <a id="share-instagram" class="share-icon instagram"><i class="fab fa-instagram"></i></a>
-  <a id="share-twitter" class="share-icon twitter"><i class="fab fa-twitter"></i></a>
-  <a id="share-native" class="share-icon native"><i class="fas fa-share-alt"></i></a>
+      <div class="share-buttons">
+        <p>Share your score:</p>
+        <a id="share-whatsapp" class="share-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a id="share-telegram" class="share-icon telegram"><i class="fab fa-telegram"></i></a>
+        <a id="share-instagram" class="share-icon instagram"><i class="fab fa-instagram"></i></a>
+        <a id="share-twitter" class="share-icon twitter"><i class="fab fa-twitter"></i></a>
+        <a id="share-native" class="share-icon native"><i class="fas fa-share-alt"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game (Easy)</button>
+  <button id="pause-button" class="game-button"><i class="fas fa-pause"></i> Pause</button>
+  <button id="restart-button" class="game-button">Restart Game</button>
+
+  <div class="sound-controls">
+    <label>
+      <input type="checkbox" id="sound-toggle" checked>
+      Sound Effects
+    </label>
+  </div>
+
+  <button id="factsBtn" class="info-btn">💡 Facts</button>
 </div>
 
-    </div>
-</div>
-        
-<button id="start-button" class="game-button"><i class="fas fa-play"></i> Start Game (Easy)</button>
-<button id="pause-button" class="game-button"><i class="fas fa-pause"></i> Pause</button>
-<button id="restart-button" class="game-button">Restart Game</button>
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    Created with <span class="heart">❤️</span> by 
+    <a href="https://github.com/Samrudhipawar" target="_blank">Samrudhi Pawar</a> | 
+    <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub Repo</a>
+  </p>
+</footer>
 
-        <div class="sound-controls">
-            <label>
-                <input type="checkbox" id="sound-toggle" checked>
-                Sound Effects
-            </label>
-        </div>
-
-<button id="factsBtn" class="info-btn">💡 Facts</button>
-    </div>
-       <footer class="footer">
-         <p>
-            Created with <span class="heart">❤️</span> by 
-            <a href="https://github.com/Samrudhipawar" target="_blank">Samrudhi Pawar</a> | 
-            <a href="https://github.com/Samrudhipawar/whack-a-mole-game" target="_blank">GitHub Repo</a>
-         </p>
-        </footer>
-    <script src="whack-a-mole.js"></script>
+<script src="whack-a-mole.js"></script>
 </body>
 </html>
